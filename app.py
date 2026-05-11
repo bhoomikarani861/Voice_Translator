@@ -1,14 +1,11 @@
 from flask import Flask, render_template, request, jsonify
 from googletrans import Translator
 from gtts import gTTS
-import os
-import uuid
+import io
+import base64
 
 app = Flask(__name__)
 translator = Translator()
-
-# Ensure static/audio directory exists
-os.makedirs(os.path.join("static", "audio"), exist_ok=True)
 
 @app.route('/')
 def index():
@@ -27,18 +24,19 @@ def translate():
         translation = translator.translate(text, src='en', dest='kn')
         kannada_text = translation.text
         
-        # Generate Audio
-        filename = f"{uuid.uuid4()}.mp3"
-        filepath = os.path.join("static", "audio", filename)
+        # Generate Audio in memory
         tts = gTTS(text=kannada_text, lang='kn')
-        tts.save(filepath)
+        fp = io.BytesIO()
+        tts.write_to_fp(fp)
+        fp.seek(0)
         
-        audio_url = f"/static/audio/{filename}"
+        # Convert audio to base64
+        audio_base64 = base64.b64encode(fp.read()).decode('utf-8')
         
         return jsonify({
             'original_text': text,
             'kannada_text': kannada_text,
-            'audio_url': audio_url
+            'audio_base64': audio_base64
         })
     except Exception as e:
         print(f"Translation Error: {e}")

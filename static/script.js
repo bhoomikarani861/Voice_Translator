@@ -89,8 +89,8 @@ async function translateText(text) {
         resultsSection.classList.remove('hidden');
         statusText.innerText = "Translation Complete";
 
-        if (data.audio_url) {
-            audioPlayer.src = data.audio_url;
+        if (data.audio_base64) {
+            audioPlayer.src = "data:audio/mp3;base64," + data.audio_base64;
             playAudioBtn.classList.remove('hidden');
             // Auto play the audio
             audioPlayer.play().catch(e => console.log("Autoplay prevented:", e));
