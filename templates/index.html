@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kannada Voice Translator</title>
+    <!-- Modern Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Animated Background Elements -->
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    <div class="blob blob-3"></div>
+
+    <div class="container">
+        <header>
+            <div class="logo-wrapper">
+                <i class="fa-solid fa-language logo-icon"></i>
+            </div>
+            <h1>Neural Voice Translator</h1>
+            <p>Speak naturally in English, instantly translated to Kannada with crystal-clear audio synthesis.</p>
+        </header>
+
+        <main>
+            <div class="glass-card main-app-card">
+                <div class="mic-container">
+                    <div class="ripple-wrapper" id="ripple-wrapper">
+                        <button id="mic-btn" class="mic-btn">
+                            <i class="fa-solid fa-microphone"></i>
+                        </button>
+                    </div>
+                    <h2 id="status-text">Tap to Speak</h2>
+                </div>
+
+                <div class="results-section hidden" id="results">
+                    <div class="translation-grid">
+                        <!-- English Source -->
+                        <div class="result-box source-box">
+                            <div class="box-header">
+                                <span class="lang-badge">English</span>
+                                <i class="fa-solid fa-ear-listen icon-right"></i>
+                            </div>
+                            <div class="text-content">
+                                <p id="english-text"></p>
+                            </div>
+                        </div>
+
+                        <div class="translation-divider">
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                        </div>
+
+                        <!-- Kannada Target -->
+                        <div class="result-box target-box">
+                            <div class="box-header">
+                                <span class="lang-badge target-badge">ಕನ್ನಡ (Kannada)</span>
+                                <button id="play-audio-btn" class="play-btn hidden" title="Play Audio">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                            <div class="text-content">
+                                <p id="kannada-text"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <audio id="audio-player" style="display: none;"></audio>
+            </div>
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
