@@ -6,6 +6,8 @@ const englishTextEl = document.getElementById('english-text');
 const kannadaTextEl = document.getElementById('kannada-text');
 const playAudioBtn = document.getElementById('play-audio-btn');
 const audioPlayer = document.getElementById('audio-player');
+const textInput = document.getElementById('text-input');
+const translateTextBtn = document.getElementById('translate-text-btn');
 
 let recognition;
 let isRecording = false;
@@ -15,7 +17,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
     recognition = new SpeechRecognition();
     recognition.continuous = false;
-    recognition.interimResults = false;
+    recognition.interimResults = true;
     recognition.lang = 'en-US';
 
     recognition.onstart = () => {
@@ -28,10 +30,24 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     };
 
     recognition.onresult = (event) => {
-        const transcript = event.results[0][0].transcript;
-        statusText.innerText = "Processing Translation...";
-        englishTextEl.innerText = transcript;
-        translateText(transcript);
+        let interimTranscript = '';
+        let finalTranscript = '';
+
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+                finalTranscript += event.results[i][0].transcript;
+            } else {
+                interimTranscript += event.results[i][0].transcript;
+            }
+        }
+
+        textInput.value = finalTranscript + interimTranscript;
+
+        if (finalTranscript !== '') {
+            statusText.innerText = "Processing Translation...";
+            englishTextEl.innerText = finalTranscript;
+            translateText(finalTranscript);
+        }
     };
 
     recognition.onerror = (event) => {
@@ -66,6 +82,23 @@ micBtn.addEventListener('click', () => {
     } else {
         recognition.start();
     }
+});
+
+translateTextBtn.addEventListener('click', () => {
+    const text = textInput.value.trim();
+    if (!text) {
+        statusText.innerText = "Please enter some text to translate.";
+        statusText.style.color = "#f43f5e";
+        setTimeout(() => {
+            statusText.style.color = "";
+            statusText.innerText = "Tap to Speak";
+        }, 3000);
+        return;
+    }
+    statusText.style.color = "";
+    statusText.innerText = "Processing Translation...";
+    englishTextEl.innerText = text;
+    translateText(text);
 });
 
 async function translateText(text) {

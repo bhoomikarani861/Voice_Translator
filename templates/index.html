@@ -26,13 +26,26 @@
 
         <main>
             <div class="glass-card main-app-card">
-                <div class="mic-container">
-                    <div class="ripple-wrapper" id="ripple-wrapper">
-                        <button id="mic-btn" class="mic-btn">
-                            <i class="fa-solid fa-microphone"></i>
+                <div class="input-section">
+                    <div class="text-input-container">
+                        <textarea id="text-input" class="text-input" placeholder="Type English text here to translate..." rows="3"></textarea>
+                        <button id="translate-text-btn" class="action-btn">
+                            <i class="fa-solid fa-language"></i> Translate
                         </button>
                     </div>
-                    <h2 id="status-text">Tap to Speak</h2>
+                    
+                    <div class="input-divider">
+                        <span>OR</span>
+                    </div>
+
+                    <div class="mic-container">
+                        <div class="ripple-wrapper" id="ripple-wrapper">
+                            <button id="mic-btn" class="mic-btn">
+                                <i class="fa-solid fa-microphone"></i>
+                            </button>
+                        </div>
+                        <h2 id="status-text">Tap to Speak</h2>
+                    </div>
                 </div>
 
                 <div class="results-section hidden" id="results">
